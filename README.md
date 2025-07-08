@@ -1,4 +1,4 @@
-# AI Scanner App
+# AI Scanner App (OpenAI Vision)
 
 A customizable AI-powered scanning app built with Expo and OpenAI Vision API. This app serves as a base template that can be easily modified for various scanning purposes like bird identification, plant detection, sign reading, and more.
 
@@ -67,13 +67,15 @@ export const SCANNING_PRESETS = {
 
 ## Contributing
 
-Feel free to fork this repository and create your own version! Some ideas:
+Feel free to fork this repository and create your own version! Some viral ideas:
 - Medical scanning app
 - Food identification
 - Document reader
 - Art analyzer
 - Wildlife tracker
+- Parking sign reading
+- Food calorie counter
 
 ## License
 
-MIT License - feel free to use this for any purpose!
+MIT License - feel free to use this for any purpose
