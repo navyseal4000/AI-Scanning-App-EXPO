@@ -1,0 +1,33 @@
+name: Self-hosted runner verification
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: self-hosted-verification
+  cancel-in-progress: false
+jobs:
+  verify:
+    if: github.repository_owner == 'navyseal4000' && github.actor == 'navyseal4000'
+    runs-on: [self-hosted, Linux, X64, navy-local, repo-AI-Scanning-App-EXPO]
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Verify dedicated local runner and Docker isolation
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$RUNNER_ENVIRONMENT" = self-hosted
+          test "$GITHUB_REPOSITORY" = "$GHA_EXPECTED_REPOSITORY"
+          test ! -e /mnt/c/Users
+          test "$(stat -c %a "$HOME")" = 700
+          test "$DOCKER_HOST" = "unix:///run/user/$(id -u)/docker.sock"
+          git rev-parse --verify HEAD
+          git --version
+          node --version
+          python3 --version
+          docker version
+          docker run --rm hello-world
+          printf 'Local runner %s, repository %s, user %s\n' "$RUNNER_NAME" "$GITHUB_REPOSITORY" "$(id -un)" >> "$GITHUB_STEP_SUMMARY"
